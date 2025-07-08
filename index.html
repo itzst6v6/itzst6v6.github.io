@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO and Social Media Meta Tags -->
+    <title>stevexinpa – UI Designer & Developer</title>
+    <meta name="description" content="Personal portfolio of stevexinpa, a UI/UX Designer and Developer specializing in crafting intuitive digital experiences for gaming and community platforms.">
+	<meta property="og:title" content="stevexinpa – UI Designer & Developer">
+	<meta property="og:description" content="Crafting Intuitive Digital Experiences for Gaming & Community Platforms.">
+	<meta property="og:image" content="https://i.imgur.com/kYf8bHq.png"> <!-- Placeholder image - you can change this -->
+	<meta property="og:url" content="https://your-domain.com"> <!-- Change this to your actual domain -->
+	<meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --panel-bg: #161b22;
+            --text-color: #e6edf3;
+            --text-muted: #a0a0a0;
+            --accent-blue: #388bfd;
+            --accent-purple: #a371f7;
+            --card-bg: rgba(34, 40, 49, 0.5);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --nav-indicator-bg: var(--accent-blue);
+
+            --glow-purple: rgba(158, 83, 237, 0.15);
+            --glow-blue: rgba(69, 137, 240, 0.2);
+            --glow-red: rgba(228, 77, 92, 0.25);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 15% 50%, rgba(13, 17, 23, 0.9), var(--bg-color) 40%);
+            color: var(--text-color);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 2rem;
+            overflow-x: hidden;
+            position: relative;
+        }
+        img { 
+            pointer-events: none;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease-in-out; }
+        #preloader i { font-size: 3rem; color: var(--accent-blue); animation: spin 1.5s linear infinite; }
+        body.loaded #preloader { opacity: 0; pointer-events: none; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background-color: rgba(0, 0, 0, 0.1); }
+        ::-webkit-scrollbar-thumb { background-color: #333; border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: #555; }
+
+        .glow { position: fixed; border-radius: 50%; filter: blur(150px); z-index: -1; will-change: transform; transition: background 0.4s ease; }
+        .glow-purple { width: 400px; height: 400px; background: var(--glow-purple); top: 5%; left: 10%; }
+        .glow-blue { width: 350px; height: 350px; background: var(--glow-blue); top: 15%; right: 15%; }
+        .glow-red { width: 300px; height: 300px; background: var(--glow-red); bottom: 10%; left: 50%; transform: translateX(-50%); }
+
+        .site-header { position: fixed; top: 2rem; left: 50%; transform: translateX(-50%); width: calc(100% - 4rem); max-width: 900px; z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; background-color: rgba(22, 27, 34, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 50px; padding: 0.5rem; border: 1px solid var(--card-border); }
+        
+        .logo { display: flex; align-items: center; text-decoration: none; cursor: pointer; padding: 0.5rem 1rem; color: var(--text-color); font-weight: 700; font-size: 1.1rem; gap: 0.5rem;}
+        .logo i { color: var(--accent-blue); }
+
+        .desktop-nav-links { position: relative; display: flex; align-items: center; list-style: none; gap: 0.5rem;}
+        .nav-link { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 1rem; transition: color 0.4s ease; cursor: pointer; border-radius: 50px; }
+        .nav-link:hover { color: var(--text-color); }
+        .desktop-nav-links .nav-link.is-active-link { color: var(--text-color); }
+        .nav-indicator { position: absolute; z-index: 1; top: 0; left: 0; height: 100%; background-color: var(--nav-indicator-bg); border-radius: 50px; transition: all 0.4s cubic-bezier(0.2, 0.5, 0, 1); box-shadow: 0 0 15px rgba(56, 139, 253, 0.5); }
+        
+        .mobile-nav-toggle { display: none; }
+
+        main { width: 100%; max-width: 900px; padding: 8rem 0 4rem 0; flex-grow: 1; }
+        .page { display: none; width: 100%; animation: fadeIn 0.6s ease-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .page-content { text-align: center; }
+        
+        .section-title { font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 800; line-height: 1.2; max-width: 20ch; margin: 0 auto 1.5rem auto; }
+        .section-subtitle { font-size: 1.2rem; max-width: 60ch; margin: 0 auto 2.5rem auto; color: var(--text-muted); line-height: 1.6; }
+        .hero-title { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 500; color: var(--text-muted); margin-bottom: 0.5rem;}
+        
+        .btn { position: relative; overflow: hidden; display: inline-block; padding: 0.9rem 2.2rem; border-radius: 50px; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; font-weight: 500; margin: 0.5rem; }
+        .btn-primary { background: var(--accent-blue); color: #fff; }
+        .btn-secondary { background: transparent; color: var(--text-color); border-color: var(--card-border); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(56, 139, 253, 0.25); }
+        .btn-secondary:hover { transform: translateY(-3px); background-color: var(--card-bg); border-color: var(--accent-blue); }
+        .btn i { margin-right: 0.5rem; }
+
+        .section { padding: 5rem 0; border-bottom: 1px solid var(--card-border); }
+        .section:last-child { border-bottom: none; }
+        .hero-section { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; border: none; padding-top: 0; padding-bottom: 0; }
+        
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .content-card { position: relative; background-color: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--card-border); border-radius: 20px; padding: 2rem; text-align: left; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; }
+        .content-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .content-card h3 { font-size: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; color: var(--text-color); }
+        .content-card h3 i { color: var(--accent-blue); }
+        .content-card p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; flex-grow: 1; }
+        
+        .skills-list { list-style: none; padding: 0; margin: 0; }
+        .skills-list li { display: inline-flex; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 0.4rem 0.8rem; border-radius: 8px; margin: 0.25rem; font-size: 0.9rem; }
+        
+        .project-card-footer { margin-top: auto; padding-top: 1rem; }
+        .project-role { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 50px; background-color: rgba(56, 139, 253, 0.1); border: 1px solid rgba(56, 139, 253, 0.3); color: var(--accent-blue); font-size: 0.8rem; font-weight: 700; margin-bottom: 1.5rem; }
+        
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; text-align: center; }
+        .tool-card { padding: 1.5rem; }
+        .tool-card .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-muted); transition: color 0.3s ease, transform 0.3s ease; }
+        .tool-card h4 { font-size: 1.1rem; }
+        .tool-card:hover .feature-icon { color: var(--accent-blue); transform: scale(1.1); }
+        
+        .contact-links { display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+        .social-link { color: var(--text-muted); font-size: 2rem; transition: color 0.3s ease, transform 0.3s ease; }
+        .social-link:hover { color: var(--accent-blue); transform: translateY(-4px); }
+        
+        .site-footer { width: 100%; max-width: 900px; padding: 2rem 0; text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: auto; }
+        .site-footer p { margin: 0.25rem 0; }
+
+        .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .is-visible { opacity: 1; transform: translateY(0); }
+
+        .mobile-nav-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .mobile-nav-overlay.is-active { opacity: 1; pointer-events: auto; }
+        .mobile-nav-drawer { display: none; }
+
+        @media (max-width: 820px) {
+            body { padding: 0 1rem; }
+            .site-header { top: 1rem; width: calc(100% - 2rem); }
+            main { padding: 6rem 0 2rem 0; }
+            .nav-container { padding: 0.5rem; }
+            .logo { font-size: 1rem; }
+            .desktop-nav-links { display: none; }
+            .mobile-nav-drawer { display: flex; position: fixed; top: 0; right: 0; transform: translateX(100%); height: 100vh; width: 75%; max-width: 280px; flex-direction: column; justify-content: center; align-items: flex-start; gap: 1.5rem; padding: 2rem; background-color: var(--panel-bg); box-shadow: -10px 0 30px rgba(0,0,0,0.2); transition: transform 0.4s cubic-bezier(0.2, 0.5, 0, 1); border-radius: 30px 0 0 30px; z-index: 1002; list-style: none; }
+            .mobile-nav-drawer.is-active { transform: translateX(0); }
+            .mobile-nav-drawer .nav-link { color: var(--text-muted); font-size: 1.2rem; font-weight: 700; }
+            .mobile-nav-drawer .nav-link:hover { color: var(--text-color); }
+            .mobile-nav-drawer .nav-link.active { color: var(--accent-blue); }
+            .mobile-nav-close-btn { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.5rem; color: var(--text-muted); background: none; border: none; cursor: pointer; transition: color 0.3s ease; }
+            .mobile-nav-close-btn:hover { color: var(--text-color); }
+            .mobile-nav-toggle { display: block; width: 24px; height: 20px; position: relative; cursor: pointer; z-index: 1001; border: none; background: transparent; margin-left: 0.5rem; }
+            .hamburger-icon, .hamburger-icon::before, .hamburger-icon::after { content: ''; position: absolute; left: 0; width: 100%; height: 2px; background-color: var(--text-color); border-radius: 2px; transition: transform 0.3s, top 0.3s, opacity 0.3s; }
+            .hamburger-icon { top: 50%; transform: translateY(-50%); }
+            .hamburger-icon::before { top: -8px; }
+            .hamburger-icon::after { top: 8px; }
+            .mobile-nav-toggle.is-active .hamburger-icon { background: transparent; }
+            .mobile-nav-toggle.is-active .hamburger-icon::before { transform: rotate(45deg); top: 0; }
+            .mobile-nav-toggle.is-active .hamburger-icon::after { transform: rotate(-45deg); top: 0; }
+            .section { padding: 3.5rem 0; }
+            .section-title { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader"><i class="fa-solid fa-code"></i></div>
+    <div class="glow glow-purple"></div>
+    <div class="glow glow-blue"></div>
+    <div class="glow glow-red"></div>
+
+    <header class="site-header">
+        <nav class="nav-container">
+            <a class="logo" data-page="home">
+                <i class="fa-solid fa-terminal"></i>
+                <span>stevexinpa</span>
+            </a>
+            <div style="display: flex; align-items: center;">
+                <ul class="desktop-nav-links">
+                    <span class="nav-indicator"></span>
+                    <li><a class="nav-link" data-page="home">Home</a></li>
+                    <li><a class="nav-link" data-page="about">About</a></li>
+                    <li><a class="nav-link" data-page="skills">Skills</a></li>
+                    <li><a class="nav-link" data-page="projects">Projects</a></li>
+                    <li><a class="nav-link" data-page="contact">Contact</a></li>
+                </ul>
+                <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+                    <span class="hamburger-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-nav-overlay"></div>
+    <ul class="mobile-nav-drawer">
+        <button class="mobile-nav-close-btn" aria-label="Close navigation menu"><i class="fa-solid fa-xmark"></i></button>
+        <li><a class="nav-link" data-page="home">Home</a></li>
+        <li><a class="nav-link" data-page="about">About</a></li>
+        <li><a class="nav-link" data-page="skills">Skills</a></li>
+        <li><a class="nav-link" data-page="projects">Projects</a></li>
+        <li><a class="nav-link" data-page="contact">Contact</a></li>
+    </ul>
+
+    <main>
+        <!-- HERO SECTION -->
+        <div id="home" class="page">
+            <section class="hero-section">
+                <div class="page-content fade-in-up">
+                    <h2 class="hero-title">stevexinpa</h2>
+                    <h1 class="section-title">UI Designer & Developer</h1>
+                    <p class="section-subtitle">Crafting Intuitive Digital Experiences for Gaming & Community Platforms.</p>
+                    <div class="button-group">
+                        <a class="btn btn-primary" data-page="projects"><i class="fa-solid fa-briefcase"></i> View My Portfolio</a>
+                        <a class="btn btn-secondary" data-page="contact"><i class="fa-solid fa-paper-plane"></i> Connect</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT ME SECTION -->
+        <div id="about" class="page">
+            <section class="section">
+                <div class="page-content">
+                    <h2 class="section-title fade-in-up">About Me</h2>
+                    <p class="section-subtitle fade-in-up" style="text-align: left; max-width: 65ch; margin: 0 auto 2rem auto;">
+                        I’m stevexinpa, a passionate UI/UX designer and developer with a strong creative vision and a deep interest in interactive digital experiences. I specialize in creating clean, intuitive, and functional user interfaces, particularly for gaming and community platforms. My work involves blending design and development to build comprehensive tools, launchers, and web-based ecosystems.
+                        <br><br>
+                        Currently, I'm a key part of the <strong>Spargat Group</strong>, where I'm leading the development of the <strong>Blockman Launcher</strong>.
+                    </p>
+                </div>
+            </section>
+            <section class="section">
+                <div class="page-content">
+                    <h2 class="section-title fade-in-up">Side Interests</h2>
+                    <div class="content-grid">
+                        <div class="content-card fade-in-up">
+                           <h3><i class="fa-solid fa-palette"></i>Creative Exploration</h3>
+                           <p>Pixel art & emoji design, exploring web aesthetics, and finding the perfect flow for clean UIs in Minecraft & Blockman Go creative spaces.</p>
+                        </div>
+                        <div class="content-card fade-in-up" style="transition-delay: 100ms;">
+                            <h3><i class="fa-solid fa-rocket"></i>Tech & Optimization</h3>
+                           <p>Launcher optimization and exploring the potential of AI tools to accelerate and enhance my design and development workflows.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SKILLS & TOOLS SECTION -->
+        <div id="skills" class="page">
+            <section class="section">
+                <h2 class="section-title fade-in-up">My Skillset</h2>
+                <div class="content-grid">
+                    <div class="content-card fade-in-up">
+                        <h3><i class="fa-solid fa-pen-ruler"></i>Design</h3>
+                        <div class="skills-list">
+                            <li>UI/UX Design</li>
+                            <li>Web & App Interfaces</li>
+                            <li>Game Interfaces</li>
+                            <li>Figma</li>
+                            <li>Photopea</li>
+                            <li>Canva</li>
+                            <li>Pixel Art Styling</li>
+                            <li>Asset Optimization</li>
+                        </div>
+                    </div>
+                    <div class="content-card fade-in-up" style="transition-delay: 100ms;">
+                        <h3><i class="fa-solid fa-code"></i>Development</h3>
+                        <div class="skills-list">
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>JavaScript</li>
+                            <li>Python</li>
+                            <li>Node.js</li>
+                            <li>Electron</li>
+                        </div>
+                    </div>
+                    <div class="content-card fade-in-up" style="transition-delay: 200ms;">
+                        <h3><i class="fa-solid fa-users"></i>Project & Community</h3>
+                        <div class="skills-list">
+                            <li>Project Direction</li>
+                            <li>Branding</li>
+                            <li>Community Management</li>
+                            <li>Community Engagement</li>
+                            <li>Discord Bot Setup</li>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section">
+                 <h2 class="section-title fade-in-up">Tools I Use</h2>
+                 <p class="section-subtitle fade-in-up">My daily driver toolkit for bringing ideas to life.</p>
+                 <div class="tools-grid">
+                     <div class="content-card tool-card fade-in-up"><i class="fa-brands fa-figma feature-icon"></i><h4>Figma</h4></div>
+                     <div class="content-card tool-card fade-in-up" style="transition-delay: 50ms;"><i class="fa-solid fa-image feature-icon"></i><h4>Photopea</h4></div>
+                     <div class="content-card tool-card fade-in-up" style="transition-delay: 100ms;"><i class="fa-solid fa-code feature-icon"></i><h4>VS Code</h4></div>
+                     <div class="content-card tool-card fade-in-up" style="transition-delay: 150ms;"><i class="fa-brands fa-github feature-icon"></i><h4>GitHub</h4></div>
+                     <div class="content-card tool-card fade-in-up" style="transition-delay: 200ms;"><i class="fa-brands fa-discord feature-icon"></i><h4>Discord</h4></div>
+                     <div class="content-card tool-card fade-in-up" style="transition-delay: 250ms;"><i class="fa-solid fa-bolt feature-icon"></i><h4>Electron</h4></div>
+                 </div>
+            </section>
+        </div>
+
+        <!-- PROJECTS SECTION -->
+        <div id="projects" class="page">
+            <section class="section">
+                <h2 class="section-title fade-in-up">Featured Projects</h2>
+                <p class="section-subtitle fade-in-up">Here's a selection of projects where I've blended design and development.</p>
+                <div class="content-grid">
+                    <div class="content-card fade-in-up">
+                        <h3><i class="fa-solid fa-rocket"></i>Blockman Launcher</h3>
+                        <span class="project-role">Owner & Developer (Spargat Group)</span>
+                        <p>A custom-built launcher for games like Blockman Go, with a focus on cross-platform accessibility (Windows, Linux, Android). My work involves managing the entire project, from UI flow and downloader logic to the backend structure.</p>
+                        <div class="project-card-footer">
+                            <a href="https://discord.gg/PqZtGn3HMn" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"><i class="fa-brands fa-discord"></i> Project Discord</a>
+                        </div>
+                    </div>
+                    <div class="content-card fade-in-up" style="transition-delay: 100ms;">
+                        <h3><i class="fa-solid fa-cube"></i>Blockycraft</h3>
+                        <span class="project-role">UI Designer & Web Developer</span>
+                        <p>I crafted the pixel-based UI elements, brand assets, and emojis to ensure design consistency. I managed server visuals, interaction layouts, and developed the main website to create an immersive community experience.</p>
+                        <div class="project-card-footer">
+                             <a href="https://discord.gg/tutrWYz948" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"><i class="fa-brands fa-discord"></i> Join Discord Community</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CONTACT SECTION -->
+        <div id="contact" class="page">
+            <section class="section">
+                <div class="page-content">
+                    <h2 class="section-title fade-in-up">Let's Connect</h2>
+                    <p class="section-subtitle fade-in-up">
+                        I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. My dedication and versatility allow me to tackle challenges where design and functionality meet.
+                    </p>
+                    <div class="contact-links fade-in-up">
+                        <a href="https://discordapp.com/users/1282081390812463117" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord Profile" title="stevexinla">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@xiaolingguyalwayseatscheese" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="YouTube Channel">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+    </main>
+
+    <footer class="site-footer">
+        <p>Designed & Coded with <i class="fa-solid fa-heart" style="color: var(--accent-blue);"></i> by stevexinpa.</p>
+        <p>Copyright © 2024 stevexinpa. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- PRELOADER ---
+            window.addEventListener('load', () => {
+                document.body.classList.add('loaded');
+            });
+
+            // --- MOBILE NAVIGATION ---
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const mobileNavDrawer = document.querySelector('.mobile-nav-drawer');
+            const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+            const mobileNavCloseBtn = document.querySelector('.mobile-nav-close-btn');
+
+            function openMobileNav() { 
+                mobileNavToggle.classList.add('is-active');
+                mobileNavDrawer.classList.add('is-active'); 
+                mobileNavOverlay.classList.add('is-active'); 
+            }
+            function closeMobileNav() { 
+                mobileNavToggle.classList.remove('is-active');
+                mobileNavDrawer.classList.remove('is-active'); 
+                mobileNavOverlay.classList.remove('is-active'); 
+            }
+            mobileNavToggle.addEventListener('click', () => mobileNavDrawer.classList.contains('is-active') ? closeMobileNav() : openMobileNav());
+            mobileNavCloseBtn.addEventListener('click', closeMobileNav);
+            mobileNavOverlay.addEventListener('click', closeMobileNav);
+            
+            // --- SINGLE-PAGE NAVIGATION ---
+            const pageNavElements = document.querySelectorAll('.nav-link, .logo, .btn[data-page]');
+            const allNavLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const desktopNavIndicator = document.querySelector('.desktop-nav-links .nav-indicator');
+            const desktopNavLinksContainer = document.querySelector('.desktop-nav-links');
+
+            function updateIndicator(element) {
+                if (!element || !desktopNavIndicator || window.innerWidth <= 820) return;
+                desktopNavIndicator.style.width = `${element.offsetWidth}px`;
+                desktopNavIndicator.style.transform = `translateX(${element.offsetLeft}px)`;
+                document.querySelectorAll('.desktop-nav-links .nav-link').forEach(link => link.classList.remove('is-active-link'));
+                element.classList.add('is-active-link');
+            }
+
+            function showPage(pageId) {
+                pages.forEach(page => page.classList.remove('active'));
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) { 
+                    targetPage.classList.add('active'); 
+                }
+                
+                allNavLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.page === pageId);
+                });
+                
+                const activeDesktopLink = document.querySelector(`.desktop-nav-links .nav-link[data-page="${pageId}"]`);
+                updateIndicator(activeDesktopLink);
+                
+                window.scrollTo(0, 0);
+                closeMobileNav();
+            }
+            
+            desktopNavLinksContainer.addEventListener('mouseleave', () => {
+                const activeLink = document.querySelector('.desktop-nav-links .nav-link.active');
+                updateIndicator(activeLink);
+            });
+            
+            pageNavElements.forEach(link => {
+                if (link.dataset.page) {
+                    link.addEventListener('click', (e) => { 
+                        e.preventDefault(); 
+                        showPage(link.dataset.page); 
+                    });
+                }
+                if (link.closest('.desktop-nav-links')) {
+                    link.addEventListener('mouseenter', (e) => updateIndicator(e.currentTarget));
+                }
+            });
+            
+            // --- SCROLL ANIMATIONS ---
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { 
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => observer.observe(el));
+
+            // --- GLOW EFFECT ON SCROLL ---
+            const glows = document.querySelectorAll('.glow');
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                glows.forEach(glow => {
+                    const speed = parseFloat(getComputedStyle(glow).width) > 350 ? 0.1 : 0.05;
+                    glow.style.transform = `translateY(${scrollY * speed}px)`;
+                });
+            });
+
+            // --- INITIALIZE THE PAGE ---
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
